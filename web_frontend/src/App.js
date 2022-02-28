@@ -1,12 +1,18 @@
 import './App.css';
-import {Button} from '@material-ui/core'
+import SignIn from './SignIn';
+import SignUp from './SignUp';
+import { Routes, Route } from 'react-router-dom'
+import { Container, Divider } from '@material-ui/core'
 
 function App() {
   return (
-    <div className="App">
-      <h1>headind</h1>
-      <Button>click me</Button>
-    </div>
+    <Container maxWidth="md">
+      <div>
+        <SignIn />
+        {/* <SignUp /> */}
+      </div>
+    </Container>
+
   );
 }
 
