@@ -1,9 +1,9 @@
-import SignIn from './sign-in/SignIn';
+import Dashboard from './dashboard/Dashboard';
 
 function Home() {
   return (
     <div>
-      <SignIn />
+      <Dashboard />
     </div>
   );
 }

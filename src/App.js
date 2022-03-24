@@ -4,6 +4,7 @@ import Home from './components/home';
 import SignIn from './components/sign-in/SignIn';
 import SignUp from './components/sign-up/SignUp';
 import Clubpost from './components/clubpost/Clubpost'
+import Dashboard from './components/dashboard/Dashboard';
 
 function App() {
   return (

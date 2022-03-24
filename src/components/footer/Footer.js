@@ -8,9 +8,9 @@ import Link from '@mui/material/Link';
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
-      {'Copyright © '}
+      {'Copyright1 © '}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        Stive
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -25,7 +25,7 @@ function Footer(props) {
     <Box component="footer" sx={{ bgcolor: 'background.paper', py: 6 }}>
       <Container maxWidth="lg">
         <Typography variant="h6" align="center" gutterBottom>
-          {title}
+          {'Footer'}
         </Typography>
         <Typography
           variant="subtitle1"
@@ -33,7 +33,7 @@ function Footer(props) {
           color="text.secondary"
           component="p"
         >
-          {description}
+          {'Something here to give the footer a purpose!'}
         </Typography>
         <Copyright />
       </Container>
