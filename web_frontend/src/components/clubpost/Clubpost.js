@@ -91,7 +91,7 @@ export default function Dashboard() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Container maxWidth="lg">
-        <Header title="Shive" sections={sections} />
+        <Header title="Stive" sections={sections} />
         <main>
           <MainFeaturedPost post={mainFeaturedPost} />
           <Grid container spacing={4}>
