@@ -54,13 +54,13 @@ export default function Postcard() {
                         <MoreVertIcon />
                     </IconButton>
                 }
-                title="Shrimp and Chorizo Paella"
+                title="Music Club"
                 subheader="September 14, 2016"
             />
             <CardMedia
                 component="img"
-                height="350"
-                image="https://mui.com/static/images/cards/paella.jpg"
+                height="215"  // size MUST be 215px(discuss it,if u wanna change it)
+                image="https://image.shutterstock.com/image-photo/stage-music-club-color-toned-260nw-62999062.jpg"
                 alt="Paella dish"
             />
             <CardContent>
@@ -90,7 +90,6 @@ export default function Postcard() {
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
-                    <Typography paragraph>Method:</Typography>
                     <Poll />
                     <Typography paragraph>
                         More Content....

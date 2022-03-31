@@ -24,6 +24,8 @@ import Orders from './Orders';
 import Footer from '../footer/Footer'
 import Postcard from '../postcard/Postcard';
 
+import Postform from '../postform/Postform';
+
 function Copyright(props) {
   return (
     <Footer />
@@ -115,6 +117,7 @@ function DashboardContent() {
             >
               Dashboard
             </Typography>
+            <Postform/>
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <NotificationsIcon />
@@ -159,7 +162,9 @@ function DashboardContent() {
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
               {/* Recent Orders */}
-              <Postcard/>
+              <Grid item xs={12}>
+                <Postcard />
+              </Grid>          
               {/* Recent Orders */}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
@@ -192,7 +197,7 @@ function DashboardContent() {
                   <Deposits />
                 </Paper>
               </Grid>
-              
+
             </Grid>
             <Copyright sx={{ pt: 4 }} />
           </Container>
