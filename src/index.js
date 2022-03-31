@@ -7,7 +7,7 @@ import reportWebVitals from "./reportWebVitals";
 const primaryClr = "#00FFFF";
 const secondaryClr = "#008888";
 const blackClr = "#000000";
-const darkClr = "#00e0e0";
+const darkClr = "#002222";
 const whiteClr = "#dddddd";
 const greyClr = "#aaaaaa";
 
@@ -35,7 +35,7 @@ const mdTheme = createTheme({
 		MuiAppBar: {
 			styleOverrides: {
 				root: {
-					backgroundColor: blackClr,
+					backgroundColor: darkClr,
 					color: greyClr,
 				},
 			},

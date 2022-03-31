@@ -3,11 +3,11 @@ import Poll from 'react-polls'
 import Container from '@mui/material/Container';
 
 
-const pollQuestion1 = 'Kaisa laga sir?'
+const pollQuestion1 = 'Winner of the contest is ?'
 const pollAnswers1 = [
-    { option: 'Mast', votes: 1 },
-    { option: 'Bohot Mast', votes: 2 },
-    { option: 'Mind blowing', votes: 3 }
+    { option: 'Aakash Kumar', votes: 1 },
+    { option: 'Nimish Pant', votes: 2 },
+    { option: 'Dev Das', votes: 3 }
 ]
 const pollStyles1 = {
     questionSeparator: true,

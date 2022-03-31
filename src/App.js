@@ -10,8 +10,14 @@ import Home from "./components/home/Home";
 function App() {
 	const [value, setValue] = useState("home");
 	return (
-		<Box>
+		<Box
+			sx={{
+				backgroundColor: "black",
+				minHeight: "100vh",
+			}}
+		>
 			<AppBar
+				position="stickey"
 				sx={{
 					display: "flex",
 					flexDirection: "row",
@@ -35,7 +41,7 @@ function App() {
 					<Avatar />
 				</IconButton>
 			</AppBar>
-			{value == "home" && <Home />}
+			<Box>{value == "home" && <Home />}</Box>
 		</Box>
 	);
 }

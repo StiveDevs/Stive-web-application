@@ -1,5 +1,6 @@
 import { Box, CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
+import Postcard from "../postcard/Postcard";
 
 export default function Home() {
 	const [posts, setPosts] = useState([]);
@@ -20,5 +21,20 @@ export default function Home() {
 		setUp();
 	}, []);
 
-	return <Box>{isLoading ? <CircularProgress /> : <Box></Box>}</Box>;
+	return (
+		<Box>
+			{isLoading ? (
+				<CircularProgress />
+			) : (
+				<Box
+					sx={{
+						display: "flex",
+						flexWrap: "wrap",
+					}}
+				>
+					{posts && posts.map((post) => <Postcard post={post} />)}
+				</Box>
+			)}
+		</Box>
+	);
 }
