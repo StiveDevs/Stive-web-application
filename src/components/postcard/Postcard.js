@@ -34,7 +34,7 @@ export default function Postcard({ post }) {
 	const getTimeStamp = (objectId) => {
 		const timeStamp = parseInt(objectId.substr(0, 8), 16) * 1000;
 		const date = new Date(timeStamp);
-		return date.toDateString();
+		return date.toLocaleString();
 	};
 
 	const handleExpandClick = () => {

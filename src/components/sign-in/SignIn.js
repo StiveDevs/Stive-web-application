@@ -1,111 +1,100 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-const theme = createTheme();
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import { useContext, useState } from "react";
+import { UserContext } from "../../App";
+import { CircularProgress } from "@mui/material";
 
 export default function SignIn() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+	const [email, setEmail] = useState("");
+	const [helperText, setHelperText] = useState("");
+	const { user, setUser, apiUrl } = useContext(UserContext);
+	const [isLoading, setIsLoading] = useState(false);
 
-  return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
-      </Container>
-    </ThemeProvider>
-  );
+	const handleSignIn = async () => {
+		if (!email.endsWith("@iiitg.ac.in")) {
+			setHelperText("Email not from IIITG");
+			return;
+		}
+		setHelperText("");
+		setIsLoading(true);
+		try {
+			await fetch(`${apiUrl}/student`, {
+				method: "post",
+				body: JSON.stringify({ email }),
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+			const res = await fetch(`${apiUrl}/student`);
+			const students = await res.json();
+			for (const student of students) {
+				if (student.email === email) {
+					setUser(student);
+					sessionStorage.setItem("user", JSON.stringify(student));
+					break;
+				}
+			}
+		} catch (error) {
+			console.log("SignInHandleSignIn", error);
+		} finally {
+			setIsLoading(false);
+		}
+	};
+
+	return (
+		<Box
+			sx={{
+				position: "absolute",
+				width: "100%",
+				height: "100%",
+				bgcolor: "background.default",
+				zIndex: 9999,
+			}}
+		>
+			<Box
+				component="form"
+				sx={{
+					display: "flex",
+					flexDirection: "column",
+					alignItems: "center",
+					gap: 2,
+					position: "relative",
+					left: "50%",
+					top: "50%",
+					transform: "translate(-50%, -50%)",
+				}}
+			>
+				<LockOutlinedIcon color="primary" />
+				<Typography component="h1" variant="h5">
+					Sign in
+				</Typography>
+				<TextField
+					error={Boolean(helperText)}
+					helperText={helperText}
+					label="Email Address"
+					autoComplete="email"
+					value={email}
+					onChange={(event) => setEmail(event.target.value)}
+				/>
+				<Button
+					disabled={isLoading}
+					onClick={handleSignIn}
+					variant="outlined"
+					sx={{
+						":disabled": {
+							color: "text.secondary",
+						},
+						display: "flex",
+						gap: 2,
+					}}
+				>
+					{isLoading && <CircularProgress />}
+					Sign In
+				</Button>
+			</Box>
+		</Box>
+	);
 }

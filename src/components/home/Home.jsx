@@ -21,20 +21,16 @@ export default function Home() {
 		setUp();
 	}, []);
 
+	if (isLoading) return <CircularProgress />;
+
 	return (
-		<Box>
-			{isLoading ? (
-				<CircularProgress />
-			) : (
-				<Box
-					sx={{
-						display: "flex",
-						flexWrap: "wrap",
-					}}
-				>
-					{posts && posts.map((post) => <Postcard post={post} />)}
-				</Box>
-			)}
+		<Box
+			sx={{
+				display: "flex",
+				flexWrap: "wrap",
+			}}
+		>
+			{posts && posts.map((post) => <Postcard post={post} />)}
 		</Box>
 	);
 }
