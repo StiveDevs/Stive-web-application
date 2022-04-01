@@ -16,6 +16,7 @@ export default function Home() {
 				setIsLoading(false);
 			} catch (error) {
 				console.log("HomeSetUp", error);
+				alert(error);
 			}
 		}
 		setUp();

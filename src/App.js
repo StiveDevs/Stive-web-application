@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Alert, Box, Snackbar } from "@mui/material";
 import { createContext, useEffect, useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Home from "./components/home/Home";
@@ -69,8 +69,10 @@ const mdTheme = createTheme({
 export const UserContext = createContext();
 
 function App() {
-	const [tab, setTab] = useState("");
+	const [tab, setTab] = useState("home");
 	const [user, setUser] = useState(null);
+	const [alertMsg, setAlertMsg] = useState("");
+	const [alertType, setAlertType] = useState("");
 
 	useEffect(() => {
 		const user = sessionStorage.getItem("user");
@@ -79,9 +81,19 @@ function App() {
 		}
 	}, []);
 
+	useEffect(() => {
+		sessionStorage.setItem("user", JSON.stringify(user));
+	}, [user]);
+
 	return (
 		<UserContext.Provider
-			value={{ user, setUser, apiUrl: "https://stive-api.herokuapp.com" }}
+			value={{
+				user,
+				setUser,
+				apiUrl: "https://stive-api.herokuapp.com",
+				setAlertMsg,
+				setAlertType,
+			}}
 		>
 			<ThemeProvider theme={mdTheme}>
 				<Box
@@ -90,10 +102,23 @@ function App() {
 						minHeight: "100vh",
 					}}
 				>
-					{!user && <SignIn />}
-					<TopBar tab={tab} setTab={setTab} />
-					{tab === "home" && <Home />}
+					{!user ? (
+						<SignIn />
+					) : (
+						<Box>
+							<TopBar tab={tab} setTab={setTab} />
+							{tab === "home" && <Home />}
+						</Box>
+					)}
 				</Box>
+				<Snackbar
+					open={Boolean(alertMsg)}
+					onClose={() => setAlertMsg("")}
+				>
+					<Alert variant="outlined" severity={alertType}>
+						{alertMsg}
+					</Alert>
+				</Snackbar>
 			</ThemeProvider>
 		</UserContext.Provider>
 	);
