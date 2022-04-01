@@ -1,16 +1,19 @@
 import { AppBar, Avatar, IconButton, Tab, Tabs } from "@mui/material";
 import {
-	ArrowBackRounded,
 	GroupsRounded,
 	HomeRounded,
+	ChatRounded,
+	GroupAddRounded,
 } from "@mui/icons-material";
 import { useContext, useState } from "react";
 import { UserContext } from "../../App";
-import Profile from "../profile/profile";
+import Profile from "./Profile";
+import CreateClub from "./CreateClub";
 
 export default function TopBar({ tab, setTab }) {
 	const { user } = useContext(UserContext);
 	const [showProfile, setShowProfile] = useState(false);
+	const [showCreateClub, setShowCreateClub] = useState(false);
 
 	return (
 		<AppBar
@@ -20,11 +23,13 @@ export default function TopBar({ tab, setTab }) {
 				flexDirection: "row",
 				justifyContent: "space-between",
 				alignItems: "center",
+				bgcolor: "background.paper",
+				color: "text.secondary",
 				px: 4,
 			}}
 		>
-			<IconButton>
-				<ArrowBackRounded />
+			<IconButton onClick={() => setShowCreateClub(true)}>
+				<GroupAddRounded />
 			</IconButton>
 			<Tabs
 				value={tab}
@@ -33,6 +38,7 @@ export default function TopBar({ tab, setTab }) {
 			>
 				<Tab icon={<HomeRounded />} label="HOME" value="home" />
 				<Tab icon={<GroupsRounded />} label="CLUBS" value="clubs" />
+				<Tab icon={<ChatRounded />} label="MESSAGES" value="messages" />
 			</Tabs>
 			<IconButton onClick={() => setShowProfile(true)}>
 				<Avatar src={user.profilePicUrl} alt={user.name}>
@@ -46,6 +52,12 @@ export default function TopBar({ tab, setTab }) {
 				<Profile
 					showProfile={showProfile}
 					setShowProfile={setShowProfile}
+				/>
+			)}
+			{showCreateClub && (
+				<CreateClub
+					showCreateClub={showCreateClub}
+					setShowCreateClub={setShowCreateClub}
 				/>
 			)}
 		</AppBar>

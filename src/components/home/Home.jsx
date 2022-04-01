@@ -1,28 +1,33 @@
 import { Box, CircularProgress } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Postcard from "../postcard/Postcard";
+import { UserContext } from "../../App";
 
 export default function Home() {
 	const [posts, setPosts] = useState([]);
-	const [isLoading, setIsLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
+	const { setAlertMsg, setAlertType } = useContext(UserContext);
 
 	useEffect(() => {
 		async function setUp() {
-			try {
-				const res = await fetch(
-					"https://stive-api.herokuapp.com/post/"
-				);
+			const res = await fetch("https://stive-api.herokuapp.com/post/");
+			if (res.ok) {
 				setPosts(await res.json());
-				setIsLoading(false);
-			} catch (error) {
-				console.log("HomeSetUp", error);
-				alert(error);
+			} else {
+				setAlertType("error");
+				setAlertMsg((await res.json()).message);
 			}
+			setIsLoading(false);
 		}
 		setUp();
 	}, []);
 
-	if (isLoading) return <CircularProgress />;
+	if (isLoading)
+		return (
+			<CircularProgress
+				sx={{ position: "absolute", top: "50%", left: "50%" }}
+			/>
+		);
 
 	return (
 		<Box

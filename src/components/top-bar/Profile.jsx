@@ -1,64 +1,62 @@
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../../App";
 import { CircularProgress, Dialog, Paper, Typography } from "@mui/material";
 
 export default function Profile({ showProfile, setShowProfile }) {
-	const [name, setName] = useState("");
-	const [rollNo, setRollNo] = useState("");
-	const [profilePicUrl, setProfilePicUrl] = useState("");
-	const [rollNoHelperText, setRollNoHelperText] = useState("");
-	const [profilePicUrlHelperText, setProfilePicUrlHelperText] = useState("");
 	const { user, setUser, apiUrl, setAlertType, setAlertMsg } =
 		useContext(UserContext);
+	const [name, setName] = useState(user.name ? user.name : "");
+	const [rollNo, setRollNo] = useState(user.rollNo ? user.rollNo : "");
+	const [profilePicUrl, setProfilePicUrl] = useState(
+		user.profilePicUrl ? user.profilePicUrl : ""
+	);
+	const [rollNoHelperText, setRollNoHelperText] = useState("");
+	const [profilePicUrlHelperText, setProfilePicUrlHelperText] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 
-	useEffect(() => {
-		if (user.name) setName(user.name);
-		if (user.rollNo) setRollNo(user.rollNo);
-		if (user.profilePicUrl) setProfilePicUrl(user.profilePicUrl);
-	}, []);
-
 	const handleUpdateProfile = async () => {
-		if (rollNo && (rollNo.length !== 7 || isNaN(rollNo))) {
-			setRollNoHelperText("Invalid Roll No");
-			return;
+		const data = { email: user.email };
+		if (name) data.name = name;
+		if (rollNo) {
+			if (rollNo.length !== 7 || isNaN(rollNo)) {
+				setRollNoHelperText("Invalid Roll No");
+
+				return;
+			}
+			data.rollNo = rollNo;
 		}
 		setRollNoHelperText("");
 		setIsLoading(true);
 		try {
-			if (profilePicUrl) await fetch(profilePicUrl);
+			if (profilePicUrl) {
+				new URL(profilePicUrl);
+			}
+			data.profilePicUrl = profilePicUrl;
 		} catch (error) {
-			console.log(error);
 			setProfilePicUrlHelperText("Invalid Url");
 			setIsLoading(false);
 			return;
 		}
 		setProfilePicUrlHelperText("");
-		try {
-			const newData = { email: user.email };
-			if (rollNo) newData.rollNo = rollNo;
-			if (name) newData.name = name;
-			if (profilePicUrl) newData.profilePicUrl = profilePicUrl;
-			await fetch(`${apiUrl}/student`, {
-				method: "post",
-				body: JSON.stringify(newData),
-				headers: {
-					"Content-Type": "application/json",
-				},
-			});
-			newData._id = user._id;
-			setUser(newData);
+		const res = await fetch(`${apiUrl}/student`, {
+			method: "post",
+			body: JSON.stringify(data),
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
+		if (res.ok) {
+			data._id = user._id;
+			setUser(data);
 			setAlertType("success");
 			setAlertMsg("Profile updated successfully");
-		} catch (error) {
-			console.log("SignInHandleSignIn", error);
+		} else {
 			setAlertType("error");
-			setAlertMsg(error);
-		} finally {
-			setIsLoading(false);
+			setAlertMsg((await res.json()).message);
 		}
+		setIsLoading(false);
 	};
 
 	return (

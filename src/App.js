@@ -4,6 +4,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Home from "./components/home/Home";
 import SignIn from "./components/sign-in/SignIn";
 import TopBar from "./components/top-bar/TopBar";
+import Clubs from "./components/clubs/Clubs";
 
 const primaryClr = "#00FFFF";
 const secondaryClr = "#008888";
@@ -33,14 +34,6 @@ const mdTheme = createTheme({
 		},
 	},
 	components: {
-		MuiAppBar: {
-			styleOverrides: {
-				root: {
-					backgroundColor: darkClr,
-					color: greyClr,
-				},
-			},
-		},
 		MuiIconButton: {
 			styleOverrides: {
 				root: {
@@ -53,13 +46,6 @@ const mdTheme = createTheme({
 				root: {
 					color: blackClr,
 					backgroundColor: primaryClr,
-				},
-			},
-		},
-		MuiTypography: {
-			styleOverrides: {
-				root: {
-					color: whiteClr,
 				},
 			},
 		},
@@ -108,12 +94,14 @@ function App() {
 						<Box>
 							<TopBar tab={tab} setTab={setTab} />
 							{tab === "home" && <Home />}
+							{tab === "clubs" && <Clubs />}
 						</Box>
 					)}
 				</Box>
 				<Snackbar
 					open={Boolean(alertMsg)}
 					onClose={() => setAlertMsg("")}
+					autoHideDuration="3000"
 				>
 					<Alert variant="outlined" severity={alertType}>
 						{alertMsg}
