@@ -95,7 +95,7 @@ export default function Postcard({ post }) {
 			</CardActions>
 			<Collapse in={expanded} timeout="auto" unmountOnExit>
 				<CardContent>
-					<Poll />
+					<Poll post={post}/>
 				</CardContent>
 			</Collapse>
 		</Card>
