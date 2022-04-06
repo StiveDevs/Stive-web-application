@@ -7,7 +7,6 @@ export default function Clubs() {
 	const [clubs, setClubs] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const { setAlertMsg, setAlertType } = useContext(UserContext);
-	const [refresh, setRefresh] = useState(false);
 
 	useEffect(() => {
 		async function setUp() {
@@ -21,7 +20,7 @@ export default function Clubs() {
 			setIsLoading(false);
 		}
 		setUp();
-	}, [refresh]);
+	}, []);
 
 	if (isLoading)
 		return (
@@ -34,19 +33,14 @@ export default function Clubs() {
 		<Container
 			sx={{
 				display: "flex",
-				flexDirection: "column",
-				alignItems: "center",
+				flexWrap: "wrap",
 				p: 4,
 				gap: 4,
 			}}
 		>
-			{clubs &&
-				clubs.map((club) => (
-					<ClubCard
-						club={club}
-						refresh={refresh}
-						setRefresh={setRefresh}
-					/>
+			{clubs.length > 0 &&
+				clubs.map((_, index) => (
+					<ClubCard clubs={clubs} setClubs={setClubs} index={index} />
 				))}
 		</Container>
 	);

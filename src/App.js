@@ -65,11 +65,19 @@ function App() {
 		if (user) {
 			setUser(JSON.parse(user));
 		}
+		const tab = sessionStorage.getItem("tab");
+		if (tab) {
+			setTab(tab);
+		}
 	}, []);
 
 	useEffect(() => {
 		sessionStorage.setItem("user", JSON.stringify(user));
 	}, [user]);
+
+	useEffect(() => {
+		sessionStorage.setItem("tab", tab);
+	}, [tab]);
 
 	return (
 		<UserContext.Provider
