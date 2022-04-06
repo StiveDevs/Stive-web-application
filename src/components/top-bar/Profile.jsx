@@ -49,6 +49,9 @@ export default function Profile({ showProfile, setShowProfile }) {
 		});
 		if (res.ok) {
 			data._id = user._id;
+			if (user.email.endsWith("sgc@iiitg.ac.in")) {
+				data.isSGCMember = true;
+			}
 			setUser(data);
 			setAlertType("success");
 			setAlertMsg("Profile updated successfully");

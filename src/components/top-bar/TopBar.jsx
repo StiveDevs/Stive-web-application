@@ -4,16 +4,19 @@ import {
 	HomeRounded,
 	ChatRounded,
 	GroupAddRounded,
+	PostAddRounded,
 } from "@mui/icons-material";
 import { useContext, useState } from "react";
 import { UserContext } from "../../App";
 import Profile from "./Profile";
 import CreateClub from "./CreateClub";
+import Checkout from "../checkout/Checkout";
 
 export default function TopBar({ tab, setTab }) {
 	const { user } = useContext(UserContext);
 	const [showProfile, setShowProfile] = useState(false);
 	const [showCreateClub, setShowCreateClub] = useState(false);
+	const [showCreatePost, setShowCreatePost] = useState(false);
 
 	return (
 		<AppBar
@@ -28,9 +31,15 @@ export default function TopBar({ tab, setTab }) {
 				px: 4,
 			}}
 		>
-			<IconButton onClick={() => setShowCreateClub(true)}>
-				<GroupAddRounded />
-			</IconButton>
+			{user.isSGCMember ? (
+				<IconButton onClick={() => setShowCreateClub(true)}>
+					<GroupAddRounded />
+				</IconButton>
+			) : (
+				<IconButton onClick={() => setShowCreatePost(true)}>
+					<PostAddRounded />
+				</IconButton>
+			)}
 			<Tabs
 				value={tab}
 				onChange={(event, newTab) => setTab(newTab)}
@@ -58,6 +67,12 @@ export default function TopBar({ tab, setTab }) {
 				<CreateClub
 					showCreateClub={showCreateClub}
 					setShowCreateClub={setShowCreateClub}
+				/>
+			)}
+			{showCreatePost && (
+				<Checkout
+					showCreatePost={showCreatePost}
+					setShowCreatePost={setShowCreatePost}
 				/>
 			)}
 		</AppBar>

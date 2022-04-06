@@ -44,6 +44,9 @@ export default function SignIn() {
 					if (!student.name) {
 						student.name = getNameFromEmail(email);
 					}
+					if (student.email.endsWith("sgc@iiitg.ac.in")) {
+						student.isSGCMember = true;
+					}
 					setUser(student);
 					setIsLoading(false);
 					return;
@@ -57,9 +60,16 @@ export default function SignIn() {
 				},
 			});
 			const data = await res.json();
-			user._id = data.upsertedId;
-			user.email = email;
-			setUser(user);
+			let isSGCMember = false;
+			if (email.endsWith("sgc@iiitg.ac.in")) {
+				isSGCMember = true;
+			}
+			setUser({
+				_id: data.upsertedId,
+				email,
+				name: getNameFromEmail(email),
+				isSGCMember,
+			});
 			setAlertType("success");
 			setAlertMsg("Signin successful");
 		} catch (error) {
@@ -97,7 +107,7 @@ export default function SignIn() {
 				}}
 			>
 				<LockOutlinedIcon color="primary" />
-				<Typography component="h1" variant="h5">
+				<Typography component="h1" variant="h5" color="text.primary">
 					Sign in
 				</Typography>
 				<TextField

@@ -1,4 +1,4 @@
-import { Box, CircularProgress } from "@mui/material";
+import { CircularProgress, Container } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import Postcard from "../postcard/Postcard";
 import { UserContext } from "../../App";
@@ -30,13 +30,13 @@ export default function Home() {
 		);
 
 	return (
-		<Box
+		<Container
 			sx={{
 				display: "flex",
 				flexWrap: "wrap",
 			}}
 		>
-			{posts && posts.map((post) => <Postcard post={post} />)}
-		</Box>
+			{posts.length > 0 && posts.map((post) => <Postcard post={post} />)}
+		</Container>
 	);
 }
