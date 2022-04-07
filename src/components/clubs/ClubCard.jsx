@@ -14,6 +14,7 @@ import {
 	CardActions,
 	CardContent,
 	CardHeader,
+	CircularProgress,
 	IconButton,
 } from "@mui/material";
 import { useContext, useState } from "react";
@@ -25,6 +26,7 @@ export default function ClubCard({ clubs, setClubs, index }) {
 	const [club, setClub] = useState(clubs[index]);
 	const { user, apiUrl, setAlertType, setAlertMsg } = useContext(UserContext);
 	const [isLoading, setIsLoading] = useState(false);
+	const [isMembershipLoading, setIsMembershipLoading] = useState(false);
 	const [showMemberList, setShowMemberList] = useState(false);
 	const [showSelectCoordinator, setShowSelectCoordinator] = useState(false);
 
@@ -49,6 +51,45 @@ export default function ClubCard({ clubs, setClubs, index }) {
 			setAlertMsg((await res.json()).message);
 		}
 		setIsLoading(false);
+	};
+
+	const handleJoinClub = async () => {
+		setIsMembershipLoading(true);
+		const res = await fetch(
+			`${apiUrl}/club/${club._id}/add/member/${user._id}`,
+			{ method: "PATCH" }
+		);
+		if (res.ok) {
+			club.members.push(user);
+			setClub(club);
+			setAlertType("success");
+			setAlertMsg(`Joined club ${club.name} successfully`);
+		} else {
+			setAlertType("error");
+			setAlertMsg((await res.json()).message);
+		}
+		setIsMembershipLoading(false);
+	};
+
+	const handleLeaveClub = async () => {
+		setIsMembershipLoading(true);
+		const res = await fetch(
+			`${apiUrl}/club/${club._id}/remove/member/${user._id}`,
+			{ method: "PATCH" }
+		);
+		if (res.ok) {
+			const idx = club.members.findIndex(
+				(value) => value._id === user._id
+			);
+			club.members.splice(idx, 1);
+			setClub(club);
+			setAlertType("success");
+			setAlertMsg(`Left club ${club.name} successfully`);
+		} else {
+			setAlertType("error");
+			setAlertMsg((await res.json()).message);
+		}
+		setIsMembershipLoading(false);
 	};
 
 	return (
@@ -103,11 +144,25 @@ export default function ClubCard({ clubs, setClubs, index }) {
 					(club.members.findIndex(
 						(student) => student._id === user._id
 					) < 0 ? (
-						<Button variant="outlined">
+						<Button
+							variant="outlined"
+							disabled={isMembershipLoading}
+							onClick={handleJoinClub}
+						>
+							{isMembershipLoading && (
+								<CircularProgress size={16} />
+							)}
 							<PersonAddRounded />
 						</Button>
 					) : (
-						<Button variant="outlined">
+						<Button
+							variant="outlined"
+							disabled={isMembershipLoading}
+							onClick={handleLeaveClub}
+						>
+							{isMembershipLoading && (
+								<CircularProgress size={16} />
+							)}
 							<PersonRemoveRounded />
 						</Button>
 					))}
