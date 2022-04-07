@@ -14,14 +14,14 @@ import {
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../App";
 
-export default function SelectCoordinator({
-	showSelectCoordinator,
-	setShowSelectCoordinator,
+export default function SelectMembers({
+	showSelectMembers,
+	setShowSelectMembers,
 	club,
 	setClub,
 }) {
 	const [students, setStudents] = useState([]);
-	const [coordinators, setCoordinators] = useState(club.coordinators);
+	const [members, setMembers] = useState(club.members);
 	const [isLoading, setIsLoading] = useState(true);
 	const { apiUrl, setAlertMsg, setAlertType } = useContext(UserContext);
 
@@ -49,34 +49,34 @@ export default function SelectCoordinator({
 		setUp();
 	}, []);
 
-	const handleModifyCoordinators = async () => {
+	const handleModifyMembers = async () => {
 		setIsLoading(true);
-		for (let i = 0; i < coordinators.length; i++) {
-			const j = club.coordinators.findIndex(
-				(val) => val._id === coordinators[i]._id
+		for (let i = 0; i < members.length; i++) {
+			const j = club.members.findIndex(
+				(val) => val._id === members[i]._id
 			);
 			if (j < 0) {
 				await fetch(
-					`${apiUrl}/club/${club._id}/add/coordinator/${coordinators[i]._id}`,
+					`${apiUrl}/club/${club._id}/add/member/${members[i]._id}`,
 					{ method: "PATCH" }
 				);
 			}
 		}
-		for (let i = 0; i < club.coordinators.length; i++) {
-			const j = coordinators.findIndex(
-				(val) => val._id === club.coordinators[i]._id
+		for (let i = 0; i < club.members.length; i++) {
+			const j = members.findIndex(
+				(val) => val._id === club.members[i]._id
 			);
 			if (j < 0) {
 				await fetch(
-					`${apiUrl}/club/${club._id}/remove/coordinator/${club.coordinators[i]._id}`,
+					`${apiUrl}/club/${club._id}/remove/member/${club.members[i]._id}`,
 					{ method: "PATCH" }
 				);
 			}
 		}
-		club.coordinators = coordinators;
+		club.members = members;
 		setClub(club);
 		setAlertType("success");
-		setAlertMsg(`Coordinators of ${club.name} modified successfully`);
+		setAlertMsg(`Members of ${club.name} modified successfully`);
 		setIsLoading(false);
 	};
 
@@ -99,15 +99,15 @@ export default function SelectCoordinator({
 		if (student.name && student.rollNo)
 			return student.name + " " + student.rollNo;
 		if (student.name) return student.name;
-		const name = getNameFromEmail(student.email);
+		const name = getNameFromEmail(student.mail);
 		if (student.rollNo) return name + " " + student.rollNo;
 		else return name;
 	};
 
 	return (
 		<Dialog
-			open={showSelectCoordinator}
-			onClose={() => setShowSelectCoordinator(false)}
+			open={showSelectMembers}
+			onClose={() => setShowSelectMembers(false)}
 		>
 			<Paper
 				sx={{
@@ -120,19 +120,19 @@ export default function SelectCoordinator({
 				}}
 			>
 				<Typography variant="h6" sx={{ mb: 2 }}>
-					Modify Coordinators
+					Modify Members
 				</Typography>
 				<Autocomplete
 					multiple
 					options={students}
-					onChange={(_, value) => setCoordinators(value)}
+					onChange={(_, value) => setMembers(value)}
 					getOptionLabel={getStudentLabel}
 					isOptionEqualToValue={(option, value) =>
 						option._id === value._id
 					}
 					loading={isLoading}
 					filterSelectedOptions
-					defaultValue={club.coordinators}
+					defaultValue={club.members}
 					renderOption={(props, student) => (
 						<ListItem {...props} key={student._id}>
 							<ListItemAvatar>
@@ -158,7 +158,7 @@ export default function SelectCoordinator({
 				/>
 				<Button
 					disabled={isLoading}
-					onClick={handleModifyCoordinators}
+					onClick={handleModifyMembers}
 					variant="outlined"
 					sx={{
 						":disabled": {

@@ -45,9 +45,9 @@ export default function TopBar({ tab, setTab }) {
 				onChange={(event, newTab) => setTab(newTab)}
 				centered
 			>
-				<Tab icon={<HomeRounded />} label="HOME" value="home" />
-				<Tab icon={<GroupsRounded />} label="CLUBS" value="clubs" />
-				<Tab icon={<ChatRounded />} label="MESSAGES" value="messages" />
+				<Tab icon={<HomeRounded />} value="home" />
+				<Tab icon={<GroupsRounded />} value="clubs" />
+				<Tab icon={<ChatRounded />} value="messages" />
 			</Tabs>
 			<IconButton onClick={() => setShowProfile(true)}>
 				<Avatar src={user.profilePicUrl} alt={user.name}>

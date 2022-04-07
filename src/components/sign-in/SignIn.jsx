@@ -10,7 +10,7 @@ import { CircularProgress } from "@mui/material";
 export default function SignIn() {
 	const [email, setEmail] = useState("");
 	const [helperText, setHelperText] = useState("");
-	const { user, setUser, apiUrl, setAlertType, setAlertMsg } =
+	const { setUser, apiUrl, setAlertType, setAlertMsg } =
 		useContext(UserContext);
 	const [isLoading, setIsLoading] = useState(false);
 

@@ -21,6 +21,7 @@ import { useContext, useState } from "react";
 import { UserContext } from "../../App";
 import MemberList from "./MemberList";
 import SelectCoordinator from "./SelectCoordinator";
+import SelectMembers from "./SelectMembers";
 
 export default function ClubCard({ clubs, setClubs, index }) {
 	const [club, setClub] = useState(clubs[index]);
@@ -29,6 +30,7 @@ export default function ClubCard({ clubs, setClubs, index }) {
 	const [isMembershipLoading, setIsMembershipLoading] = useState(false);
 	const [showMemberList, setShowMemberList] = useState(false);
 	const [showSelectCoordinator, setShowSelectCoordinator] = useState(false);
+	const [showSelectMembers, setShowSelectMembers] = useState(false);
 
 	const getTimeStamp = (objectId) => {
 		const timeStamp = parseInt(objectId.substr(0, 8), 16) * 1000;
@@ -105,6 +107,12 @@ export default function ClubCard({ clubs, setClubs, index }) {
 				club={club}
 				setClub={setClub}
 			/>
+			<SelectMembers
+				showSelectMembers={showSelectMembers}
+				setShowSelectMembers={setShowSelectMembers}
+				club={club}
+				setClub={setClub}
+			/>
 			<CardHeader
 				title={club.name}
 				subheader={getTimeStamp(club._id)}
@@ -136,6 +144,16 @@ export default function ClubCard({ clubs, setClubs, index }) {
 					<Button
 						variant="outlined"
 						onClick={() => setShowSelectCoordinator(true)}
+					>
+						<AdminPanelSettingsRounded />
+					</Button>
+				)}
+				{club.coordinators.findIndex(
+					(coordinator) => coordinator._id === user._id
+				) >= 0 && (
+					<Button
+						variant="outlined"
+						onClick={() => setShowSelectMembers(true)}
 					>
 						<AdminPanelSettingsRounded />
 					</Button>
