@@ -5,6 +5,7 @@ import {
 	PeopleRounded,
 	PersonAddRounded,
 	PersonRemoveRounded,
+	PostAddRounded,
 } from "@mui/icons-material";
 import {
 	Avatar,
@@ -22,6 +23,7 @@ import { UserContext } from "../../App";
 import MemberList from "./MemberList";
 import SelectCoordinator from "./SelectCoordinator";
 import SelectMembers from "./SelectMembers";
+import Checkout from "../checkout/Checkout";
 
 export default function ClubCard({ clubs, setClubs, index }) {
 	const [club, setClub] = useState(clubs[index]);
@@ -31,6 +33,7 @@ export default function ClubCard({ clubs, setClubs, index }) {
 	const [showMemberList, setShowMemberList] = useState(false);
 	const [showSelectCoordinator, setShowSelectCoordinator] = useState(false);
 	const [showSelectMembers, setShowSelectMembers] = useState(false);
+	const [showCreatePost, setShowCreatePost] = useState(false);
 
 	const getTimeStamp = (objectId) => {
 		const timeStamp = parseInt(objectId.substr(0, 8), 16) * 1000;
@@ -113,6 +116,10 @@ export default function ClubCard({ clubs, setClubs, index }) {
 				club={club}
 				setClub={setClub}
 			/>
+			<Checkout
+				showCreatePost={showCreatePost}
+				setShowCreatePost={setShowCreatePost}
+			/>
 			<CardHeader
 				title={club.name}
 				subheader={getTimeStamp(club._id)}
@@ -156,6 +163,16 @@ export default function ClubCard({ clubs, setClubs, index }) {
 						onClick={() => setShowSelectMembers(true)}
 					>
 						<AdminPanelSettingsRounded />
+					</Button>
+				)}
+				{club.coordinators.findIndex(
+					(coordinator) => coordinator._id === user._id
+				) >= 0 && (
+					<Button
+						variant="outlined"
+						onClick={() => setShowCreatePost(true)}
+					>
+						<PostAddRounded />
 					</Button>
 				)}
 				{!user.isSGCMember &&

@@ -1,5 +1,4 @@
 import {
-	Avatar,
 	Dialog,
 	Divider,
 	List,
@@ -8,6 +7,7 @@ import {
 	ListItemText,
 	Typography,
 } from "@mui/material";
+import StudentAvatar, { getNameFromEmail } from "../common/StudentAvatar";
 
 export default function MemberList({
 	showMemberList,
@@ -22,18 +22,14 @@ export default function MemberList({
 				{members.map((student) => (
 					<ListItem>
 						<ListItemAvatar>
-							<Avatar
-								alt={student.name}
-								src={student.profilePicUrl}
-							>
-								{student.name
-									.split(" ")
-									.map((value) => value[0].toUpperCase())
-									.join("")}
-							</Avatar>
+							<StudentAvatar student={student} />
 						</ListItemAvatar>
 						<ListItemText
-							primary={student.name}
+							primary={
+								student.name
+									? student.name
+									: getNameFromEmail(student.email)
+							}
 							secondary={student.rollNo}
 						/>
 					</ListItem>

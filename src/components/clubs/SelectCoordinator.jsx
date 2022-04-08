@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../App";
+import StudentAvatar, { getNameFromEmail } from "../common/StudentAvatar";
 
 export default function SelectCoordinator({
 	showSelectCoordinator,
@@ -29,20 +30,7 @@ export default function SelectCoordinator({
 		const setUp = async () => {
 			const res = await fetch(`${apiUrl}/student`);
 			if (res.ok) {
-				const students = await res.json();
-				for (let index = 0; index < students.length; index++) {
-					if (!students[index].name)
-						students[index].name = getNameFromEmail(
-							students[index].email
-						);
-					if (!students[index].rollNo) {
-						students[index].rollNo = "";
-					}
-					if (!students[index].profilePicUrl) {
-						students[index].profilePicUrl = "";
-					}
-				}
-				setStudents(students);
+				setStudents(await res.json());
 			}
 			setIsLoading(false);
 		};
@@ -78,21 +66,6 @@ export default function SelectCoordinator({
 		setAlertType("success");
 		setAlertMsg(`Coordinators of ${club.name} modified successfully`);
 		setIsLoading(false);
-	};
-
-	const getNameFromEmail = (email) => {
-		email = email.substring(0, email.indexOf("@"));
-		if (!email.includes(".")) {
-			return email[0].toUpperCase() + email.substring(1);
-		}
-		const [firstName, lastName] = email.split(".");
-		return (
-			firstName[0].toUpperCase() +
-			firstName.substring(1) +
-			" " +
-			lastName[0].toUpperCase() +
-			lastName.substring(1)
-		);
 	};
 
 	const getStudentLabel = (student) => {
@@ -136,18 +109,14 @@ export default function SelectCoordinator({
 					renderOption={(props, student) => (
 						<ListItem {...props} key={student._id}>
 							<ListItemAvatar>
-								<Avatar
-									alt={student.name}
-									src={student.profilePicUrl}
-								>
-									{student.name
-										.split(" ")
-										.map((value) => value[0].toUpperCase())
-										.join("")}
-								</Avatar>
+								<StudentAvatar student={student} />
 							</ListItemAvatar>
 							<ListItemText
-								primary={student.name}
+								primary={
+									student.name
+										? student.name
+										: getNameFromEmail(student.email)
+								}
 								secondary={student.rollNo}
 							/>
 						</ListItem>
