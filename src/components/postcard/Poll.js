@@ -1,14 +1,9 @@
 import React, { Component } from 'react'
 import Poll from 'react-polls'
 import Container from '@mui/material/Container';
+import { useContext, useState } from "react";
+import { UserContext } from "../../App";
 
-
-const pollQuestion1 = 'Winner of the contest is ?'
-const pollAnswers1 = [
-    { option: 'Aakash Kumar', votes: 1 },
-    { option: 'Nimish Pant', votes: 2 },
-    { option: 'Dev Das', votes: 3 }
-]
 const pollStyles1 = {
     questionSeparator: true,
     questionSeparatorWidth: 'question',
@@ -19,33 +14,47 @@ const pollStyles1 = {
 }
 
 
-export default class App extends Component {
-    state = {
-        pollAnswers1: [...pollAnswers1],
+export default function Polls({ post }) {
+    const { apiUrl, setAlertType, setAlertMsg } = useContext(UserContext);
+
+    const pollQuestion = post.polls[0].name;
+    var pollAnswers = [];
+    const getOptions = post.polls[0].options;
+    for (let i = 0; i < getOptions.length; i++) {
+        pollAnswers.push({ option: getOptions[i].name, votes: getOptions[i].selectedBy.length });
     }
 
-    handleVote = (voteAnswer, pollAnswers, pollNumber) => {
+    const handleVote = async (voteAnswer, pollAnswers, pollNumber) => {
         const newPollAnswers = pollAnswers.map(answer => {
-            if (answer.option === voteAnswer) answer.votes++
+            if (answer.option === voteAnswer)
+                answer.votes++
             return answer
         })
-
-        if (pollNumber === 1) { // For handeling multiple poll's, we will use pollNumber
-            this.setState({
-                pollAnswers1: newPollAnswers
-            })
+        for (let i = 0; i < getOptions.length; i++) {
+            if (voteAnswer == getOptions[i].name) {
+                console.log(voteAnswer);
+                console.log(pollAnswers);
+                console.log(getOptions[i]._id);
+                // const res = await fetch(`${apiUrl}/option/${getOptions[i]._id}/add/selectedBy/${selectedBy}`, {
+                //     method: "patch",
+                // });
+                // if (res.ok) {
+                //     setAlertType("success");
+                //     setAlertMsg("Option added successfully");
+                // } else {
+                //     setAlertType("error");
+                //     setAlertMsg((await res.json()).message);
+                // }
+                break;
+            }
         }
     }
 
-    render() {
-        const { pollAnswers1 } = this.state
-
-        return (
-            <Container maxWidth="sm">
-                <div>
-                    <Poll question={pollQuestion1} answers={pollAnswers1} onVote={voteAnswer => this.handleVote(voteAnswer, pollAnswers1, 1)} customStyles={pollStyles1} noStorage />
-                </div>
-            </Container>
-        )
-    }
+    return (
+        <Container maxWidth="sm">
+            <div>
+                <Poll question={pollQuestion} answers={pollAnswers} onVote={voteAnswer => handleVote(voteAnswer, pollAnswers, 1)} customStyles={pollStyles1} noStorage />
+            </div>
+        </Container>
+    )
 }
