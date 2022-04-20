@@ -24,6 +24,7 @@ import MemberList from "./MemberList";
 import SelectCoordinator from "./SelectCoordinator";
 import SelectMembers from "./SelectMembers";
 import Checkout from "../checkout/Checkout";
+import StudentAvatar from "../common/StudentAvatar";
 
 export default function ClubCard({ clubs, setClubs, index }) {
 	const [club, setClub] = useState(clubs[index]);
@@ -36,6 +37,9 @@ export default function ClubCard({ clubs, setClubs, index }) {
 	const [showCreatePost, setShowCreatePost] = useState(false);
 
 	const getTimeStamp = (objectId) => {
+		if (!objectId) {
+			return new Date().toLocaleString();
+		}
 		const timeStamp = parseInt(objectId.substr(0, 8), 16) * 1000;
 		const date = new Date(timeStamp);
 		return date.toLocaleString();
@@ -98,7 +102,7 @@ export default function ClubCard({ clubs, setClubs, index }) {
 	};
 
 	return (
-		<Card>
+		<Card elevation={4} sx={{ maxWidth: 512 }}>
 			<MemberList
 				showMemberList={showMemberList}
 				setShowMemberList={setShowMemberList}
@@ -135,7 +139,10 @@ export default function ClubCard({ clubs, setClubs, index }) {
 					user.isSGCMember && (
 						<IconButton
 							disabled={isLoading}
-							onClick={handleDeleteClub}
+							onClick={() => {
+								if (club.preview) return;
+								handleDeleteClub();
+							}}
 						>
 							<DeleteRounded />
 						</IconButton>
@@ -150,7 +157,10 @@ export default function ClubCard({ clubs, setClubs, index }) {
 				{user.isSGCMember && (
 					<Button
 						variant="outlined"
-						onClick={() => setShowSelectCoordinator(true)}
+						onClick={() => {
+							if (club.preview) return;
+							setShowSelectCoordinator(true);
+						}}
 					>
 						<AdminPanelSettingsRounded />
 					</Button>
@@ -213,13 +223,8 @@ export default function ClubCard({ clubs, setClubs, index }) {
 			<CardContent>
 				{club.coordinators.length > 0 && (
 					<AvatarGroup max={6}>
-						{club.coordinators.map((user) => (
-							<Avatar src={user.profilePicUrl} alt={user.name}>
-								{user.name
-									.split(" ")
-									.map((value) => value[0].toUpperCase())
-									.join("")}
-							</Avatar>
+						{club.coordinators.map((coordinator) => (
+							<StudentAvatar student={coordinator} />
 						))}
 					</AvatarGroup>
 				)}

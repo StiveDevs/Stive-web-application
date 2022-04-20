@@ -58,7 +58,7 @@ function App() {
 	const [tab, setTab] = useState("home");
 	const [user, setUser] = useState(null);
 	const [alertMsg, setAlertMsg] = useState("");
-	const [alertType, setAlertType] = useState("");
+	const [alertType, setAlertType] = useState("info");
 
 	useEffect(() => {
 		const user = sessionStorage.getItem("user");
@@ -109,7 +109,7 @@ function App() {
 				<Snackbar
 					open={Boolean(alertMsg)}
 					onClose={() => setAlertMsg("")}
-					autoHideDuration="3000"
+					autoHideDuration={3000}
 				>
 					<Alert variant="outlined" severity={alertType}>
 						{alertMsg}

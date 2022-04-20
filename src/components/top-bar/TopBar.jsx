@@ -1,4 +1,4 @@
-import { AppBar, Avatar, IconButton, Tab, Tabs } from "@mui/material";
+import { AppBar, Avatar, Box, IconButton, Tab, Tabs } from "@mui/material";
 import {
 	GroupsRounded,
 	HomeRounded,
@@ -29,14 +29,16 @@ export default function TopBar({ tab, setTab }) {
 				px: 4,
 			}}
 		>
-			{user.isSGCMember && (
-				<IconButton onClick={() => setShowCreateClub(true)}>
-					<GroupAddRounded />
+			<Box>
+				<IconButton onClick={() => setUser(null)}>
+					<LogoutRounded />
 				</IconButton>
-			)}
-			<IconButton onClick={() => setUser(null)}>
-				<LogoutRounded />
-			</IconButton>
+				{user.isSGCMember && (
+					<IconButton onClick={() => setShowCreateClub(true)}>
+						<GroupAddRounded />
+					</IconButton>
+				)}
+			</Box>
 			<Tabs
 				value={tab}
 				onChange={(event, newTab) => setTab(newTab)}
