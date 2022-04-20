@@ -8,9 +8,9 @@ const pollStyles1 = {
     questionSeparator: true,
     questionSeparatorWidth: 'question',
     questionBold: true,
-    questionColor: '#303030',
+    questionColor: 'lightgrey',
     align: 'center',
-    theme: 'blue'
+    theme: 'cyan'
 }
 
 
@@ -21,7 +21,10 @@ export default function Polls({ post }) {
     var pollAnswers = [];
     const getOptions = post.polls[0].options;
     for (let i = 0; i < getOptions.length; i++) {
-        pollAnswers.push({ option: getOptions[i].name, votes: getOptions[i].selectedBy.length });
+        let prevPollVotes = 0;
+        if(getOptions[i].selectedBy)
+            prevPollVotes = getOptions[i].selectedBy.length;
+        pollAnswers.push({ option: getOptions[i].name, votes: prevPollVotes });
     }
 
     const handleVote = async (voteAnswer, pollAnswers, pollNumber) => {

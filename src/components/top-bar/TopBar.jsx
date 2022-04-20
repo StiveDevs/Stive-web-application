@@ -6,15 +6,19 @@ import {
 	GroupAddRounded,
 	LogoutRounded,
 } from "@mui/icons-material";
+import PostAddIcon from '@mui/icons-material/PostAdd';
 import { useContext, useState } from "react";
 import { UserContext } from "../../App";
 import Profile from "./Profile";
 import CreateClub from "./CreateClub";
+import ButtonGroup from '@mui/material/ButtonGroup';
+import Checkout from '../checkout/Checkout'
 
 export default function TopBar({ tab, setTab }) {
 	const { user, setUser } = useContext(UserContext);
 	const [showProfile, setShowProfile] = useState(false);
 	const [showCreateClub, setShowCreateClub] = useState(false);
+	const [showCreatePost, setShowCreatePost] = useState(false);
 
 	return (
 		<AppBar
@@ -29,14 +33,19 @@ export default function TopBar({ tab, setTab }) {
 				px: 4,
 			}}
 		>
-			{user.isSGCMember && (
-				<IconButton onClick={() => setShowCreateClub(true)}>
-					<GroupAddRounded />
+			<ButtonGroup variant="text" aria-label="text button group">
+				<IconButton onClick={() => setUser(null)}>
+					<LogoutRounded />
 				</IconButton>
-			)}
-			<IconButton onClick={() => setUser(null)}>
-				<LogoutRounded />
-			</IconButton>
+				{user.isSGCMember && (
+					<IconButton onClick={() => setShowCreateClub(true)}>
+						<GroupAddRounded />
+					</IconButton>
+				)}
+				<IconButton onClick={() => setShowCreatePost(true)}>
+					<PostAddIcon />
+				</IconButton>
+			</ButtonGroup>
 			<Tabs
 				value={tab}
 				onChange={(event, newTab) => setTab(newTab)}
@@ -64,6 +73,12 @@ export default function TopBar({ tab, setTab }) {
 				<CreateClub
 					showCreateClub={showCreateClub}
 					setShowCreateClub={setShowCreateClub}
+				/>
+			)}
+			{showCreatePost && (
+				<Checkout
+					showCreatePost={showCreatePost}
+					setShowCreatePost={setShowCreatePost}
 				/>
 			)}
 		</AppBar>
