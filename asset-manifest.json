@@ -1,12 +1,12 @@
 {
   "files": {
-    "main.js": "/Stive-web-application/static/js/main.cd70fceb.js",
+    "main.js": "/Stive-web-application/static/js/main.a388aac3.js",
     "static/js/787.24ee0ee7.chunk.js": "/Stive-web-application/static/js/787.24ee0ee7.chunk.js",
     "index.html": "/Stive-web-application/index.html",
-    "main.cd70fceb.js.map": "/Stive-web-application/static/js/main.cd70fceb.js.map",
+    "main.a388aac3.js.map": "/Stive-web-application/static/js/main.a388aac3.js.map",
     "787.24ee0ee7.chunk.js.map": "/Stive-web-application/static/js/787.24ee0ee7.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/main.cd70fceb.js"
+    "static/js/main.a388aac3.js"
   ]
 }
