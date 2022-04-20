@@ -102,7 +102,7 @@ export default function ClubCard({ clubs, setClubs, index }) {
 	};
 
 	return (
-		<Card elevation={4} sx={{ maxWidth: 512 }}>
+		<Card elevation={4} sx={{ width: 384 }}>
 			<MemberList
 				showMemberList={showMemberList}
 				setShowMemberList={setShowMemberList}

@@ -34,7 +34,7 @@ export default function Clubs() {
 			sx={{
 				display: "flex",
 				flexWrap: "wrap",
-				justifyContent: "space-evenly",
+				justifyContent: "space-around",
 				p: 4,
 				gap: 4,
 			}}
