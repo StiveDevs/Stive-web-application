@@ -1,63 +1,75 @@
-import React, { Component } from 'react'
-import Poll from 'react-polls'
-import Container from '@mui/material/Container';
-import { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import Poll from "react-polls";
+import Container from "@mui/material/Container";
 import { UserContext } from "../../App";
+import { CircularProgress } from "@mui/material";
 
 const pollStyles1 = {
-    questionSeparator: true,
-    questionSeparatorWidth: 'question',
-    questionBold: true,
-    questionColor: 'lightgrey',
-    align: 'center',
-    theme: 'cyan'
-}
+	questionSeparator: true,
+	questionSeparatorWidth: "question",
+	questionBold: true,
+	questionColor: "lightgrey",
+	align: "center",
+	theme: "cyan",
+};
 
+export default function Polls({ poll }) {
+	const [answers, setAnswers] = useState([]);
+	const [vote, setVote] = useState("");
+	const [isLoading, setIsLoading] = useState(false);
+	const { user, apiUrl } = useContext(UserContext);
 
-export default function Polls({ post }) {
-    const { apiUrl, setAlertType, setAlertMsg } = useContext(UserContext);
+	useEffect(() => {
+		for (const option of poll.options) {
+			answers.push({
+				option: option.name,
+				votes: option.selectedBy.length,
+			});
+			if (
+				option.selectedBy.findIndex(
+					(value) => value._id === user._id
+				) >= 0
+			) {
+				setVote(option.name);
+			}
+		}
+	}, []);
 
-    const pollQuestion = post.polls[0].name;
-    var pollAnswers = [];
-    const getOptions = post.polls[0].options;
-    for (let i = 0; i < getOptions.length; i++) {
-        let prevPollVotes = 0;
-        if(getOptions[i].selectedBy)
-            prevPollVotes = getOptions[i].selectedBy.length;
-        pollAnswers.push({ option: getOptions[i].name, votes: prevPollVotes });
-    }
+	const handleVote = async (voteAnswer) => {
+		setIsLoading(true);
+		for (let i = 0; i < answers.length; i++) {
+			if (vote) break;
+			if (
+				answers[i].option === voteAnswer &&
+				poll.options[i].selectedBy.findIndex(
+					(value) => value._id === user._id
+				) < 0
+			) {
+				await fetch(
+					`${apiUrl}/option/${poll.options[i]._id}/add/selectedBy/${user._id}`,
+					{
+						method: "PATCH",
+					}
+				);
+				answers[i].votes++;
+				poll.options[i].selectedBy.push(user);
+				setAnswers(answers);
+				setVote(answers[i].option);
+			}
+		}
+		setIsLoading(false);
+	};
 
-    const handleVote = async (voteAnswer, pollAnswers, pollNumber) => {
-        const newPollAnswers = pollAnswers.map(answer => {
-            if (answer.option === voteAnswer)
-                answer.votes++
-            return answer
-        })
-        for (let i = 0; i < getOptions.length; i++) {
-            if (voteAnswer == getOptions[i].name) {
-                console.log(voteAnswer);
-                console.log(pollAnswers);
-                console.log(getOptions[i]._id);
-                // const res = await fetch(`${apiUrl}/option/${getOptions[i]._id}/add/selectedBy/${selectedBy}`, {
-                //     method: "patch",
-                // });
-                // if (res.ok) {
-                //     setAlertType("success");
-                //     setAlertMsg("Option added successfully");
-                // } else {
-                //     setAlertType("error");
-                //     setAlertMsg((await res.json()).message);
-                // }
-                break;
-            }
-        }
-    }
+	if (isLoading) return <CircularProgress />;
 
-    return (
-        <Container maxWidth="sm">
-            <div>
-                <Poll question={pollQuestion} answers={pollAnswers} onVote={voteAnswer => handleVote(voteAnswer, pollAnswers, 1)} customStyles={pollStyles1} noStorage />
-            </div>
-        </Container>
-    )
+	return (
+		<Poll
+			question={poll.name}
+			answers={answers}
+			onVote={handleVote}
+			customStyles={pollStyles1}
+			vote={vote}
+			noStorage
+		/>
+	);
 }

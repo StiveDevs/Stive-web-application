@@ -1,9 +1,6 @@
 import { CircularProgress, Container } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
-import Box from '@mui/material/Box';
 import Postcard from "../postcard/Postcard";
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
 import { UserContext } from "../../App";
 
 export default function Home() {
@@ -35,13 +32,15 @@ export default function Home() {
 	return (
 		<Container
 			sx={{
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center'
+				display: "flex",
+				flexDirection: "column",
+				gap: 4,
+				alignItems: "center",
+				py: 4,
 			}}
 		>
-			{posts.length > 0 && posts.map((post) => <Box > <Postcard maxWidth="200" post={post} /> </Box>).reverse()}
-
+			{posts.length > 0 &&
+				posts.map((post) => <Postcard post={post} />).reverse()}
 		</Container>
 	);
 }

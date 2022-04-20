@@ -32,12 +32,12 @@ export default function Postcard({ post }) {
 	const [likeBtn, setLikeBtn] = React.useState(false);
 
 	const getTimeStamp = (objectId) => {
-		if (objectId)  {
+		if (objectId) {
 			const timeStamp = parseInt(objectId.substr(0, 8), 16) * 1000;
 			const date = new Date(timeStamp);
 			return date.toLocaleString();
 		}
-		return (new Date).toLocaleString();
+		return new Date().toLocaleString();
 	};
 
 	const handleExpandClick = () => {
@@ -49,7 +49,7 @@ export default function Postcard({ post }) {
 	};
 
 	return (
-		<Card sx={{ maxWidth: 600, m: 5 }}>
+		<Card sx={{ width: "min(512px, 90%)" }}>
 			<CardHeader
 				avatar={
 					<Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -67,7 +67,7 @@ export default function Postcard({ post }) {
 			{post.imageUrl && (
 				<CardMedia
 					component="img"
-					height="215" // size MUST be 215px(discuss it,if u wanna change it)
+					height="256"
 					image={post.imageUrl}
 					alt={post.title}
 				/>
@@ -87,18 +87,20 @@ export default function Postcard({ post }) {
 				<IconButton aria-label="share">
 					<ShareIcon />
 				</IconButton>
-				{post.polls?.[0] && <ExpandMore
-					expand={expanded}
-					onClick={handleExpandClick}
-					aria-expanded={expanded}
-					aria-label="show more"
-				>
-					<ExpandMoreIcon />
-				</ExpandMore>}
+				{post.polls?.[0] && (
+					<ExpandMore
+						expand={expanded}
+						onClick={handleExpandClick}
+						aria-expanded={expanded}
+						aria-label="show more"
+					>
+						<ExpandMoreIcon />
+					</ExpandMore>
+				)}
 			</CardActions>
 			<Collapse in={expanded} timeout="auto" unmountOnExit>
 				<CardContent>
-					<Poll post={post}/>
+					{post.polls?.[0] && <Poll poll={post.polls[0]} />}
 				</CardContent>
 			</Collapse>
 		</Card>

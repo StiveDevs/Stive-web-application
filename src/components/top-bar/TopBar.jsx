@@ -1,4 +1,4 @@
-import { AppBar, Avatar, Box, IconButton, Tab, Tabs } from "@mui/material";
+import { AppBar, Avatar, IconButton, Tab, Tabs } from "@mui/material";
 import {
 	GroupsRounded,
 	HomeRounded,
@@ -6,13 +6,12 @@ import {
 	GroupAddRounded,
 	LogoutRounded,
 } from "@mui/icons-material";
-import PostAddIcon from '@mui/icons-material/PostAdd';
 import { useContext, useState } from "react";
 import { UserContext } from "../../App";
 import Profile from "./Profile";
 import CreateClub from "./CreateClub";
-import ButtonGroup from '@mui/material/ButtonGroup';
-import Checkout from '../checkout/Checkout'
+import ButtonGroup from "@mui/material/ButtonGroup";
+import Checkout from "../checkout/Checkout";
 
 export default function TopBar({ tab, setTab }) {
 	const { user, setUser } = useContext(UserContext);
