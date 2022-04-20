@@ -32,9 +32,12 @@ export default function Postcard({ post }) {
 	const [likeBtn, setLikeBtn] = React.useState(false);
 
 	const getTimeStamp = (objectId) => {
-		const timeStamp = parseInt(objectId.substr(0, 8), 16) * 1000;
-		const date = new Date(timeStamp);
-		return date.toLocaleString();
+		if (objectId)  {
+			const timeStamp = parseInt(objectId.substr(0, 8), 16) * 1000;
+			const date = new Date(timeStamp);
+			return date.toLocaleString();
+		}
+		return (new Date).toLocaleString();
 	};
 
 	const handleExpandClick = () => {
@@ -84,14 +87,14 @@ export default function Postcard({ post }) {
 				<IconButton aria-label="share">
 					<ShareIcon />
 				</IconButton>
-				<ExpandMore
+				{post.polls?.[0] && <ExpandMore
 					expand={expanded}
 					onClick={handleExpandClick}
 					aria-expanded={expanded}
 					aria-label="show more"
 				>
 					<ExpandMoreIcon />
-				</ExpandMore>
+				</ExpandMore>}
 			</CardActions>
 			<Collapse in={expanded} timeout="auto" unmountOnExit>
 				<CardContent>

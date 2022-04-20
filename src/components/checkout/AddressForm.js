@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
@@ -10,7 +10,7 @@ import { styled } from '@mui/material/styles';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 
 
-export default function AddressForm() {
+export default function AddressForm({ setPostData, postData }) {
   const Input = styled('input')({
     display: 'none',
   });
@@ -29,6 +29,11 @@ export default function AddressForm() {
             fullWidth
             autoComplete="title-name"
             variant="standard"
+            defaultValue={postData.title}
+            onChange={(e) => {
+              postData.title = e.target.value;
+              setPostData(postData);
+            }}
           />
         </Grid>
         <Grid item xs={12}>
@@ -40,15 +45,26 @@ export default function AddressForm() {
             fullWidth
             autoComplete="description-name"
             variant="standard"
+            defaultValue={postData.description}
+            onChange={(e) => {
+              postData.description = e.target.value;
+              setPostData(postData);
+            }}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <label htmlFor="icon-button-file">
-            <Input accept="image/*" id="icon-button-file" type="file" />
-            <IconButton color="primary" aria-label="upload picture" component="span">
-              <PhotoCamera />
-            </IconButton>
-          </label>
+          <TextField
+            id="imageURL"
+            name="imageURL"
+            label="Image URL"
+            fullWidth
+            variant="standard"
+            defaultValue={postData.imageUrl}
+            onChange={(e) => {
+              postData.imageUrl = e.target.value;
+              setPostData(postData);
+            }}
+          />
         </Grid>
         <Grid item xs={12}>
           <TextField
@@ -58,6 +74,11 @@ export default function AddressForm() {
             fullWidth
             autoComplete="description-name"
             variant="standard"
+            defaultValue={postData.polls[0].name}
+            onChange={(e) => {
+              postData.polls[0].name = e.target.value;
+              setPostData(postData);
+            }}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -68,6 +89,11 @@ export default function AddressForm() {
             fullWidth
             autoComplete="option1-name"
             variant="standard"
+            defaultValue={postData.polls[0].options[0].name}
+            onChange={(e) => {
+              postData.polls[0].options[0].name = e.target.value;
+              setPostData(postData);
+            }}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -78,6 +104,11 @@ export default function AddressForm() {
             fullWidth
             autoComplete="option2-name"
             variant="standard"
+            defaultValue={postData.polls[0].options[1].name}
+            onChange={(e) => {
+              postData.polls[0].options[1].name = e.target.value;
+              setPostData(postData);
+            }}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -88,6 +119,11 @@ export default function AddressForm() {
             fullWidth
             autoComplete="option3-name"
             variant="standard"
+            defaultValue={postData.polls[0].options[2].name}
+            onChange={(e) => {
+              postData.polls[0].options[2].name = e.target.value;
+              setPostData(postData);
+            }}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -98,6 +134,11 @@ export default function AddressForm() {
             fullWidth
             autoComplete="option4-name"
             variant="standard"
+            defaultValue={postData.polls[0].options[3].name}
+            onChange={(e) => {
+              postData.polls[0].options[3].name = e.target.value;
+              setPostData(postData);
+            }}
           />
         </Grid>
       </Grid>

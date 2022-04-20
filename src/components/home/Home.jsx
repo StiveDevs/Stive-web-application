@@ -35,11 +35,12 @@ export default function Home() {
 	return (
 		<Container
 			sx={{
-				alignItems: "center",
-				flexWrap: "wrap",
+				display: 'flex',
+				flexDirection: 'column',
+				alignItems: 'center'
 			}}
 		>
-			{posts.length > 0 && posts.map((post) => <Box > <Postcard maxWidth="200" post={post} /> </Box>)}
+			{posts.length > 0 && posts.map((post) => <Box > <Postcard maxWidth="200" post={post} /> </Box>).reverse()}
 
 		</Container>
 	);
