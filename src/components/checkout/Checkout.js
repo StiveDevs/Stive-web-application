@@ -40,16 +40,16 @@ export default function Checkout({ showCreatePost, setShowCreatePost }) {
 				"maxOptionsPerStudent": 1,
 				"options": [
 					{
-						"name": "option01",
+						"name": "",
 					},
 					{
-						"name": "option02",
+						"name": "",
 					},
 					{
-						"name": "option03",
+						"name": "",
 					},
 					{
-						"name": "option04",
+						"name": "",
 					}
 				]
 			}

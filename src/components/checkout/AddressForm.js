@@ -29,7 +29,7 @@ export default function AddressForm({ setPostData, postData }) {
             fullWidth
             autoComplete="title-name"
             variant="standard"
-            value={postData.title}
+            defaultValue={postData.title}
             onChange={(e) => {
               postData.title = e.target.value;
               setPostData(postData);
@@ -45,6 +45,7 @@ export default function AddressForm({ setPostData, postData }) {
             fullWidth
             autoComplete="description-name"
             variant="standard"
+            defaultValue={postData.description}
             onChange={(e) => {
               postData.description = e.target.value;
               setPostData(postData);
@@ -58,6 +59,7 @@ export default function AddressForm({ setPostData, postData }) {
             label="Image URL"
             fullWidth
             variant="standard"
+            defaultValue={postData.imageUrl}
             onChange={(e) => {
               postData.imageUrl = e.target.value;
               setPostData(postData);
@@ -72,6 +74,7 @@ export default function AddressForm({ setPostData, postData }) {
             fullWidth
             autoComplete="description-name"
             variant="standard"
+            defaultValue={postData.polls[0].name}
             onChange={(e) => {
               postData.polls[0].name = e.target.value;
               setPostData(postData);
@@ -86,6 +89,7 @@ export default function AddressForm({ setPostData, postData }) {
             fullWidth
             autoComplete="option1-name"
             variant="standard"
+            defaultValue={postData.polls[0].options[0].name}
             onChange={(e) => {
               postData.polls[0].options[0].name = e.target.value;
               setPostData(postData);
@@ -100,6 +104,7 @@ export default function AddressForm({ setPostData, postData }) {
             fullWidth
             autoComplete="option2-name"
             variant="standard"
+            defaultValue={postData.polls[0].options[1].name}
             onChange={(e) => {
               postData.polls[0].options[1].name = e.target.value;
               setPostData(postData);
@@ -114,6 +119,7 @@ export default function AddressForm({ setPostData, postData }) {
             fullWidth
             autoComplete="option3-name"
             variant="standard"
+            defaultValue={postData.polls[0].options[2].name}
             onChange={(e) => {
               postData.polls[0].options[2].name = e.target.value;
               setPostData(postData);
@@ -128,6 +134,7 @@ export default function AddressForm({ setPostData, postData }) {
             fullWidth
             autoComplete="option4-name"
             variant="standard"
+            defaultValue={postData.polls[0].options[3].name}
             onChange={(e) => {
               postData.polls[0].options[3].name = e.target.value;
               setPostData(postData);
