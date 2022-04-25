@@ -1,15 +1,19 @@
-import { Alert, Box, Snackbar } from "@mui/material";
+import React from 'react';
+import { Alert, Box, Snackbar, Paper } from "@mui/material";
 import { createContext, useEffect, useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Home from "./components/home/Home";
 import SignIn from "./components/sign-in/SignIn";
 import TopBar from "./components/top-bar/TopBar";
 import Clubs from "./components/clubs/Clubs";
+import BackgroundImage from '../src/backgroundImage.jpg';
+import StickyFooter from './components/sticky-footer/StickyFooter'
+
 
 const primaryClr = "#00FFFF";
 const secondaryClr = "#008888";
 const blackClr = "#000000";
-const darkClr = "#002222";
+const darkClr = "#000711";
 const whiteClr = "#dddddd";
 const greyClr = "#aaaaaa";
 
@@ -25,7 +29,7 @@ const mdTheme = createTheme({
 			contrastText: blackClr,
 		},
 		background: {
-			default: blackClr,
+			default: darkClr,
 			paper: darkClr,
 		},
 		text: {
@@ -51,6 +55,11 @@ const mdTheme = createTheme({
 		},
 	},
 });
+const styles = {
+	paperContainer: {
+		backgroundImage: `url(${BackgroundImage})`
+	}
+};
 
 export const UserContext = createContext();
 
@@ -91,6 +100,7 @@ function App() {
 		>
 			<ThemeProvider theme={mdTheme}>
 				<Box
+					style={styles.paperContainer}
 					sx={{
 						backgroundColor: "background.default",
 						minHeight: "100vh",
@@ -105,6 +115,7 @@ function App() {
 							{tab === "clubs" && <Clubs />}
 						</Box>
 					)}
+					<StickyFooter/>
 				</Box>
 				<Snackbar
 					open={Boolean(alertMsg)}

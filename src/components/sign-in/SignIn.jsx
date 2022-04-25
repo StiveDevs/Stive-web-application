@@ -9,6 +9,7 @@ import { CircularProgress } from "@mui/material";
 
 export default function SignIn() {
 	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
 	const [helperText, setHelperText] = useState("");
 	const { setUser, apiUrl, setAlertType, setAlertMsg } =
 		useContext(UserContext);
@@ -117,6 +118,14 @@ export default function SignIn() {
 					autoComplete="email"
 					value={email}
 					onChange={(event) => setEmail(event.target.value)}
+				/>
+				<TextField
+					error={Boolean(helperText)}
+					helperText={helperText}
+					label="Password"
+					value={password}
+					type="password"
+					onChange={(event) => setPassword(event.target.value)}
 				/>
 				<Button
 					disabled={isLoading}

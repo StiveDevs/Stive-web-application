@@ -49,7 +49,7 @@ export default function TopBar({ tab, setTab }) {
 			>
 				<Tab icon={<HomeRounded />} value="home" />
 				<Tab icon={<GroupsRounded />} value="clubs" />
-				<Tab icon={<ChatRounded />} value="messages" />
+				{/* <Tab icon={<ChatRounded />} value="messages" /> */}
 			</Tabs>
 			<IconButton onClick={() => setShowProfile(true)}>
 				<Avatar src={user.profilePicUrl} alt={user.name}>
