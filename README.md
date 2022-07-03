@@ -32,7 +32,7 @@ npm start
 
 #### Project Detials
 Frontend Team Members : Anshuman Kumar && Ayush Das <br />
-[Presentation Report](https://docs.google.com/presentation/d/1t7OKg11eji6c12KOXRGFOIITZKXcb39DpeqtMVmpkK8/edit#slide=id.p)<br />
+[Presentation Report](https://docs.google.com/presentation/d/1iJzc_oWhFjh6_BRCAD3o2SUWAu_-QMkbJqs-TxhbG9w/edit#slide=id.g124a0120ec4_0_17)<br />
 [Testing Report](https://docs.google.com/presentation/d/1t7OKg11eji6c12KOXRGFOIITZKXcb39DpeqtMVmpkK8/edit#slide=id.p) 
 
 
