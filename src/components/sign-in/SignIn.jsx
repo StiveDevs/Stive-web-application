@@ -6,6 +6,9 @@ import Typography from "@mui/material/Typography";
 import { useContext, useState } from "react";
 import { UserContext } from "../../App";
 import { CircularProgress } from "@mui/material";
+import bcrypt from 'bcryptjs'
+
+const salt = bcrypt.genSaltSync(10)
 
 export default function SignIn() {
 	const [email, setEmail] = useState("");
@@ -40,6 +43,11 @@ export default function SignIn() {
 		try {
 			let res = await fetch(`${apiUrl}/student`);
 			const students = await res.json();
+			const hashedPassword = bcrypt.hashSync(password);
+			// console.log(hashedPassword);
+			// to verify :: const validPassword = await bcrypt.compare(password, hashedPassword);
+
+
 			for (const student of students) {
 				if (student.email === email) {
 					if (!student.name) {
